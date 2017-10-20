@@ -27,10 +27,21 @@ import Lens_Fit_dynestyFuncs
 from Lens_Fit_dynestyFuncs import *
 
 ## parellel for dynesty
-from multiprocessing import Pool
-ppool = Pool(processes=8)
-procs = 8
+# from multiprocessing import Pool
+# ppool = Pool(processes=4)
+# procs = 4
 
+# from multiprocessing import MPIPool
+import sys
+import numpy as np
+import emcee
+from emcee.utils import MPIPool
+ppool = MPIPool
+procs = 4
+
+if not pool.is_master():
+    pool.wait()
+    sys.exit(0)
 
 
 ### FITTING OPTIONS
@@ -362,6 +373,7 @@ if (FitIt):
 		dsampler.run_nested(nlive_init=10*ndim, nlive_batch=100, dlogz_init=0.01, wt_kwargs={'pfrac': 1.0})
 
 
+
 		##ANALYSIS
 		print "Analysing Dynesty Results"
 		dres = dsampler.results  # store results
@@ -402,7 +414,7 @@ else:
 
 
 
-
+pool.close()
 
 
 
