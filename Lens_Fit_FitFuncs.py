@@ -34,7 +34,7 @@ def rEprm_ecc(t, ph0, M, Prest,q, CosI, ecc, cosw):
 	T0 = ph0/2./np.pi*Prest
 	EEu = np.mod(EAn(t,ecc,T0,Prest), 2.*np.pi)
 	fot = 2.*np.arctan2(np.sqrt(1.+ecc)*np.tan(EEu/2.), np.sqrt(1.- ecc))  ##arctan2(top, bot)
-	ww =  -ma.acos(cosw)#np.arccos(cosw) ##careful ##arg of pericenter
+	ww =  ma.acos(cosw)#np.arccos(cosw) ##careful ##arg of pericenter
 	roa = (1.-ecc*ecc)/(1.+ecc*np.cos(fot + ww))
 	return np.nan_to_num( np.sqrt(    4.*G*M/(1.+q)/c/c * (asep(M,Prest)*roa * CosI* -np.sin(fot + ww))    ) )
 
@@ -45,7 +45,7 @@ def rEsec_ecc(t, ph0, M, Prest,q, CosI, ecc, cosw):
 	T0 = ph0/2./np.pi*Prest
 	EEu = np.mod(EAn(t,ecc,T0,Prest), 2.*np.pi)
 	fot = 2.*np.arctan2(np.sqrt(1.+ecc)*np.tan(EEu/2.), np.sqrt(1.- ecc))  ##arctan2(top, bot)
-	ww =  -ma.acos(cosw)#np.arccos(cosw) ##careful ##arg of pericenter
+	ww =  ma.acos(cosw)#np.arccos(cosw) ##careful ##arg of pericenter
 	roa = (1.-ecc*ecc)/(1.+ecc*np.cos(fot + ww))
 	return np.nan_to_num(  np.sqrt(     4.*G*M/(1.+1./q)/c/c * asep(M,Prest)*roa * CosI* -np.sin( fot + ww + np.pi )    )  )
 
@@ -56,7 +56,7 @@ def usec_ecc(t, ph0, M, Prest,q, CosI, ecc, cosw):
 	T0 = ph0/2./np.pi*Prest
 	EEu = np.mod(EAn(t,ecc,T0,Prest), 2.*np.pi)
 	fot = 2.*np.arctan2(np.sqrt(1.+ecc)*np.tan(EEu/2.), np.sqrt(1.- ecc))  ##arctan2(top, bot)
-	ww = -ma.acos(cosw)#np.arccos(cosw) ##careful ##arg of pericenter
+	ww = ma.acos(cosw)#np.arccos(cosw) ##careful ##arg of pericenter
 	re = asep(M,Prest)*(1.-ecc*ecc)/(1.+ecc*np.cos(fot + ww))
 	us = re/rEprm_ecc(t, ph0, M, Prest,q, CosI, ecc, cosw) * np.sqrt( (np.cos(fot + ww))**2  + (1.0-CosI**2)*(np.sin(fot + ww))**2 )
 	# div by primary Einstein radius
@@ -69,7 +69,7 @@ def uprm_ecc(t, ph0, M, Prest,q, CosI, ecc, cosw):
 	T0 = ph0/2./np.pi*Prest
 	EEu = np.mod(EAn(t,ecc,T0,Prest), 2.*np.pi)
 	fot = 2.*np.arctan2(np.sqrt(1.+ecc)*np.tan(EEu/2.), np.sqrt(1.- ecc))  ##arctan2(top, bot)
-	ww =  -ma.acos(cosw)#np.arccos(cosw) ##careful ##arg of pericenter
+	ww =  ma.acos(cosw)#np.arccos(cosw) ##careful ##arg of pericenter
 	re = asep(M,Prest)*(1.-ecc*ecc)/(1.+ecc*np.cos(fot + ww))
 	up = re/rEsec_ecc(t, ph0, M, Prest,q, CosI, ecc, cosw) * np.sqrt( (np.cos(fot + ww + np.pi))**2  + (1.0-CosI**2)*(np.sin(fot + ww + np.pi))**2 )
 	# div by secondary Einstein radius
@@ -218,9 +218,10 @@ def DopLum(params, t):
 
 
 def DopLumLens(params, t):
-	Mbin, qq, ecc, cosw, T0, CosI, Tbin, fs, alp = params
-
-	#circ
+	#Mbin, qq, ecc, cosw, T0, CosI, Tbin, fs, alp = params
+	Mbin, qq, ecc, cosw, T0, CosI, Tbin, fs = params
+	alp = 1.88
+	#circ	
 	#plens = [Mbin, Tbin, qq, CosI, T0*2.*np.pi/Tbin]
 	#ecc
 	plens = [Mbin, Tbin, qq, CosI, T0*2.*np.pi/Tbin, ecc, cosw]
@@ -250,20 +251,23 @@ def DopLumLens(params, t):
 	fot = 2.*np.arctan2(np.sqrt(1.+ecc)*np.tan(EEu/2.), np.sqrt(1.- ecc))
 	
 
+
+
+
 	#ww = arccos(cosw)
 
-	
+	ww = ma.acos(cosw)
 	### NOW GET RADIAL VEL FROM KEPLER PROBLEM
 	#KK        = q/(1.+q) * nn*sep * sin(Inc)/sqrt(1.-e*e)   #/q for sec
-	#vsec       = vmean + KK*( np.cos(ww + fot) + ecc*np.cos(ww) ) ##div by q to get seconday vel
-	vRsec       =  vmean + KK*( cosw*np.cos(fot) + np.sqrt(1.-cosw*cosw)*np.sin(fot) + ecc*cosw ) ## cosw*np.cos(fot) +- sqrt(1. sample two diff halves of w space
+	vRsec       = vmean + KK*( np.cos(ww + fot) + ecc*np.cos(ww) ) ##div by q to get seconday vel
+	#vRsec       =  vmean + KK*( cosw*np.cos(fot) - np.sqrt(1.-cosw*cosw)*np.sin(fot) + ecc*cosw ) ## cosw*np.cos(fot) +- sqrt(1. sample two diff halves of w space
 	vRprm        = qq*vRsec 
 			
 	
 
 	
 	### NOW COMPUTE REL BEAMING FORM RAD VEL
-	r_sec      = semimaj * (1. - ecc*ecc) / (1. + ecc* np.cos( fot ))
+	r_sec      = semimaj * (1. - ecc*ecc) / (1. + ecc* np.cos( fot + ww ))
 	vorbS      = 1./(1.+qq) * np.sqrt(G*Mbin *( 2./r_sec - 1./semimaj ))  #1./(1.+q) * sqrt(G*M/a)
 	vorbP	   = qq*vorbS
 	GamS       = 1./np.sqrt(1. - vorbS*vorbS/c/c)
@@ -272,8 +276,16 @@ def DopLumLens(params, t):
 	DopS      = (1./(GamS * (1. - vRsec/c)) )**(3.-alp)
 	DopP      = (1./(GamP * (1. + vRprm/c)) )**(3.-alp)
 
-	
-	DopLum	  = DopS*fs*MagPSsec_ecc(plens, t/day2sec) + DopP*(1.-fs)*MagPSprm_ecc(plens, t/day2sec)
+
+	###TAKE INTO ACCOUNT TIME DELAY
+	t_rtd_sec = t - r_sec/c/(1.+qq)*(1.-np.cos( fot + ww )) ##is this correct??
+	t_rtd_prm = t - qq*r_sec/c*(1.-np.cos( fot + ww ))
+
+
+
+	DopLum	  = DopS*fs*MagPSsec_ecc(plens, t_rtd_sec/day2sec) + DopP*(1.-fs)*MagPSprm_ecc(plens, t_rtd_prm/day2sec)
+
+	#DopLum	  = DopS*fs*MagPSsec_ecc(plens, t/day2sec) + DopP*(1.-fs)*MagPSprm_ecc(plens, t/day2sec)
 	## if fs=0.5 and q=1, this goes to zero in lim of no lensing and small v, in practice, when v not very small, get small double period modulation
 	
 	#mags      = -5./2. * np.log10(DopLum)  ## mag - mag0= -2.5 * log10(F(t)/F_0)  =  -2.5 * log10(DopLum) 

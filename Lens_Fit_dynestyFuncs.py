@@ -22,7 +22,7 @@ def ptform_Zoom(params):
 
 	M_out = 5.0 + M*6.0 ##from 10^(5) to 10^(11)  
 
-	Prest_out = Prest*1000.0#days
+	Prest_out = Prest*1000.0 + 350.00 # make repeat no sooner than at end of data = ~200 + 350 = 550 days
 
 	q_out = q 
 
@@ -42,11 +42,13 @@ def ptform_Zoom(params):
 
 #PRIORS
 def ptform_DopLens(params):
-	M, q, ecc, cosw, T0, CosI, Prest, fs, alp = params
+	#M, q, ecc, cosw, T0, CosI, Prest, fs, alp = params
+	M, q, ecc, cosw, T0, CosI, Prest, fs = params
+
 					
 	#Transform from unit cube to actual param values
 
-	M_out = 5.0 + M*6.0 ##from 10^(5) to 10^(11)  
+	M_out = 8.0 + M*2.0 ##from 10^(5) to 10^(11)  
 	
 	q_out = q 
 
@@ -54,17 +56,19 @@ def ptform_DopLens(params):
 
 	cosw_out = cosw*2.0-1.0
 
-	Prest_out = Prest*500.0 + 10.0 #days
-
-	T0_out = (T0*2.0 - 1.0)*300.0 #days
+	T0_out = T0*4350.0#(T0*2.0 - 1.0)*3000.0 #days
 
 	CosI_out = CosI*2.0-1.0
 
+	Prest_out = Prest*4000.0 + 350.00 #days
+
 	fs_out = fs
 
-	alp_out = 4.*(alp*2.0 - 1.0)
+	#alp_out = 4.*(alp*2.0 - 1.0)
 
-	x = np.array([M_out, q_out, ecc_out, cosw_out, T0_out, CosI_out, Prest_out, fs_out, alp_out])		
+	#x = np.array([M_out, q_out, ecc_out, cosw_out, T0_out, CosI_out, Prest_out, fs_out, alp_out])		
+	x = np.array([M_out, q_out, ecc_out, cosw_out, T0_out, CosI_out, Prest_out, fs_out])		
+
 	return x
 
 
@@ -135,7 +139,8 @@ def Mag_ecc_Fmin_Err2(p, t, y, dy):
 
 def DopLens_Fmin_Err2(p, t, y, dy):
 	print "EVAL", p
-	M, q, ecc, cosw, T0, CosI, Prest, fs, alp = p
+	#M, q, ecc, cosw, T0, CosI, Prest, fs, alp = p
+	M, q, ecc, cosw, T0, CosI, Prest, fs = p
 	#if (M<8.5 or M>9.5 or q<0.0 or q>1.0 or CosI<-1.0 or CosI>1.0 or cosw<0.0 or cosw>1.0 or ecc<0.0 or ecc>1.0 or fs<0.0 or fs>1.0 or Prest<300.0 or Prest>10000.):
 	if (M<0.0 or M>11.0 or q<0.0 or q>1.0 or CosI<-1.0 or CosI>1.0 or cosw<0.0 or cosw>1.0 or ecc<0.0 or ecc>1.0 or fs<0.0 or fs>1.0 or Prest<0.0 or Prest>10000.):
 		return np.inf

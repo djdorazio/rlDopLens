@@ -26,9 +26,9 @@ def Get_FitData(filename, err_fac, err_fac_zm, day_intervl, day_intervl_zm):
 	mag_errs = err_fac*mag
 
 	mag_err_flare = mag_errs
-	for i in range(len(mag_errs)):
-		if (t_rday[i] > 199 and t_rday[i] < 205):
-			mag_err_flare[i] = mag_errs[i]/5.0
+	# for i in range(len(mag_errs)):
+	# 	if (t_rday[i] > 199 and t_rday[i] < 205):
+	# 		mag_err_flare[i] = mag_errs[i]/5.0
 
 
 
@@ -58,7 +58,7 @@ def Get_FitData(filename, err_fac, err_fac_zm, day_intervl, day_intervl_zm):
 	while (i<=iendd-1):
 		j=1
 		while (j<=len(t_srt)-1-i):
-			if (t_srt[i+j] > 198.0 and t_srt[i+j] < 206.0):
+			if (t_srt[i+j] > 198.0 and t_srt[i+j] < 210.0):
 				day_intervl_use = day_intervl_zm
 			else:
 				day_intervl_use = day_intervlend
@@ -106,9 +106,9 @@ def Get_FitData(filename, err_fac, err_fac_zm, day_intervl, day_intervl_zm):
 	mag_err_avg = err_fac*mag_avg
 
 	mag_err_flare_avg = mag_err_avg
-	for i in range(len(mag_err_avg)):
-		if (t_avg[i] > 198 and t_avg[i] < 208):
-			mag_err_flare_avg[i] = mag_err_avg[i]/5.0
+	# for i in range(len(mag_err_avg)):
+	# 	if (t_avg[i] > 198 and t_avg[i] < 208):
+	# 		mag_err_flare_avg[i] = mag_err_avg[i]/5.0
 
 
 	print "DONE BINNING DATA"
