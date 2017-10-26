@@ -28,16 +28,16 @@ import Lens_Fit_dynestyFuncs
 from Lens_Fit_dynestyFuncs import *
 
 ## parellel threading for dynesty
-from multiprocessing import Pool
-pool = Pool(processes=8)
-procs = 8
+# from multiprocessing import Pool
+# pool = Pool(processes=8)
+# procs = 8
 
 #MPI for dynesty
-# import sys
-# import emcee
-# from emcee.utils import MPIPool
-# pool = MPIPool()
-# procs = 32
+import sys
+import emcee
+from emcee.utils import MPIPool
+pool = MPIPool()
+procs = 32
 
 # if not pool.is_master():
 #     pool.wait()
@@ -51,8 +51,8 @@ if (FitIt==True):
 else:
 	Load_Nest = False
 ##
-#FitMeth = "dynesty"
-FitMeth = "FminFit"
+FitMeth = "dynesty"
+#FitMeth = "FminFit"
 ##
 full_ecc = False ##fit only the lens flare and feed best fit params into Doppler curve
 DopLens_Fit = True #fit enitre Dop+Lens to entire lightcurve
@@ -63,7 +63,7 @@ if (FitMeth == "FminFit"):
 	plt_ens = False
 else:
 	plt_ens = True
-nsol=10
+nsol=100
 plt_ICs = True
 
 
