@@ -152,8 +152,8 @@ print "Data Imported"
 ##ecc Dop params
 #pDop = [ecc,cosw,T0,KK,Tbin,fs]
 Mtst = 8.
-qtst = 0.1
-ecctst = 0.4
+qtst = 0.2
+ecctst = 0.0
 coswtst = 1.0
 
 ecctst1 = 0.2
@@ -162,13 +162,13 @@ ecctst2 = 0.5
 coswtst1 = 0.5
 coswtst2 = 0.0
 
-Tbintst = 400.
+Tbintst = 200.
 CosItst = 0.99
-KKtst = 0.1
+KKtst = 0.2
 fstst = 0.5
 alptst = 1.5
 
-ph0tst = 2.*np.pi*250/Tbintst
+ph0tst = 0.0#2.*np.pi*250/Tbintst
 
 
 tt = np.linspace(195.0, 210.0, 200)
@@ -252,8 +252,8 @@ if (plt_ICs):
 
 
 
-	plt.show()
-	#plt.savefig("DopLensICs.png")
+	#plt.show()
+	plt.savefig("DopLensICs_noTdelay.png")
 	######################
 	###^DEBUG/PLOT ICS^
 	######################

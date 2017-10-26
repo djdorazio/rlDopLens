@@ -278,8 +278,8 @@ def DopLumLens(params, t):
 
 
 	###TAKE INTO ACCOUNT TIME DELAY
-	t_rtd_sec = t - r_sec/c/(1.+qq)*(1.-np.cos( fot + ww )) ##is this correct??
-	t_rtd_prm = t - qq*r_sec/c*(1.-np.cos( fot + ww ))
+	t_rtd_sec = t - r_sec/c/(1.+qq)*(1.-np.cos( fot + np.pi/2.)) ##is this correct??
+	t_rtd_prm = t - qq*r_sec/c*(1.-np.cos( fot + np.pi/2. ))
 
 
 
