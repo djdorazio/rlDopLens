@@ -283,7 +283,7 @@ def DopLumLens(params, t):
 
 
 
-	DopLum	  = DopS*fs*MagPSsec_ecc(plens, t_rtd_sec/day2sec) + DopP*(1.-fs)*MagPSprm_ecc(plens, t_rtd_prm/day2sec)
+	DopLum	  = DopS*fs*MagPSsec_ecc(plens, t_rtd_sec/day2sec) + (1.-fs)#DopP*(1.-fs)*MagPSprm_ecc(plens, t_rtd_prm/day2sec)
 
 	#DopLum	  = DopS*fs*MagPSsec_ecc(plens, t/day2sec) + DopP*(1.-fs)*MagPSprm_ecc(plens, t/day2sec)
 	## if fs=0.5 and q=1, this goes to zero in lim of no lensing and small v, in practice, when v not very small, get small double period modulation

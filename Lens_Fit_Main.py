@@ -4,7 +4,7 @@ import matplotlib
 # import scipy as sc
 import scipy.optimize as opti
 #from optimize import brentq
-#matplotlib.use('Agg')
+matplotlib.use('Agg')
 matplotlib.rcParams['pdf.fonttype'] = 42
 matplotlib.rcParams['ps.fonttype'] = 42
 import matplotlib.pyplot as plt
@@ -64,7 +64,7 @@ if (FitMeth == "FminFit"):
 else:
 	plt_ens = True
 nsol=100
-plt_ICs = True
+plt_ICs = False
 
 
 #Physical Constants
@@ -253,7 +253,7 @@ if (plt_ICs):
 
 
 	#plt.show()
-	plt.savefig("DopLensICs_noTdelay.png")
+	plt.savefig("DopLensICs_seconly.png")
 	######################
 	###^DEBUG/PLOT ICS^
 	######################
@@ -392,14 +392,14 @@ if (FitIt):
 		fig, ax = dyplot.runplot(dres, logplot=True)
 		fig.tight_layout()
 		#fig.savefig("dyntest_sumry_DopLens%g_Zoom%g.png" %(DopLens_Fit, full_ecc))
-		fig.savefig("dplots/dyntest_sumry_DopLens%g_Zoom%g.png" %(DopLens_Fit, full_ecc))
+		fig.savefig("dplots/dyntest_sumry_DopLens%g_Zoom%g_seconly.png" %(DopLens_Fit, full_ecc))
 
 
 		# trace plot
 		print "Trace Plot"
 		fig1, ax1 = dyplot.traceplot(dres, labels=param_names, show_titles=True)
 		fig1.tight_layout()
-		fig1.savefig("dplots/dyntest_traceDopLens%g_Zoom%g.png" %(DopLens_Fit, full_ecc))
+		fig1.savefig("dplots/dyntest_traceDopLens%g_Zoom%g_seconly.png" %(DopLens_Fit, full_ecc))
 		#fig1.savefig("dyntest_traceDopLens%g_Zoom%g.png" %(DopLens_Fit, full_ecc))
 
 
@@ -407,7 +407,7 @@ if (FitIt):
 		print "Corner Plot"
 		fig2, ax2 = dyplot.cornerplot(dres, show_titles=True, labels=param_names)
 		fig2.tight_layout()
-		fig2.savefig("dplots/dyntest_cornerDopLens%g_Zoom%g.png" %(DopLens_Fit, full_ecc))
+		fig2.savefig("dplots/dyntest_cornerDopLens%g_Zoom%g_seconly.png" %(DopLens_Fit, full_ecc))
 		#fig2.savefig("dyntest_cornerDopLens%g_Zoom%g.png" %(DopLens_Fit, full_ecc))
 
 		smpsT = np.transpose(dres['samples'])
@@ -635,7 +635,7 @@ if (full_ecc):
 # Savename = Savename.replace('.', 'p')
 # Savename = Savename.replace('ppng', '.png')
 else:
-	Savename = "BestFits_"+FitMeth+"_DopandFlare_eccON.png" 
+	Savename = "BestFits_"+FitMeth+"_DopandFlare_eccON_Seconly.png" 
 plt.savefig(Savename)
 ######################
 	###^PLOT RESULTS^
