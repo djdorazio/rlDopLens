@@ -32,13 +32,12 @@ from multiprocessing import Pool
 pool = Pool(processes=8)
 procs = 8
 
-# from multiprocessing import MPIPool
-# import sys
-# import numpy as np
-# import emcee
-# from emcee.utils import MPIPool
-# pool = MPIPool()
-# procs = 4
+
+import sys
+import emcee
+from emcee.utils import MPIPool
+pool = MPIPool()
+procs = 32
 
 # if not pool.is_master():
 #     pool.wait()
