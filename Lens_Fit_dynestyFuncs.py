@@ -133,7 +133,7 @@ def Mag_ecc_Fmin_Err2(p, t, y, dy):
 	else:
 		chi = 0.5*(y - MagPS_ecc(p, t) )/ dy
 		chi2 = np.sum(chi*chi) 
-		print(chi2)
+		print(chi2/(len(t)-len(p)-1))
 		return chi2
 
 
@@ -147,7 +147,7 @@ def DopLens_Fmin_Err2(p, t, y, dy):
 	else:
 		chi = 0.5*(y - DopLumLens(p, t) )/ dy
 		chi2 = np.sum(chi*chi) 
-		print(chi2)
+		print(chi2/(len(t)-len(p)-1))
 		return chi2
 
 

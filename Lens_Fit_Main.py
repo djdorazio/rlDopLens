@@ -27,17 +27,17 @@ from Lens_Fit_FitFuncs import *
 import Lens_Fit_dynestyFuncs
 from Lens_Fit_dynestyFuncs import *
 
-## parellel for dynesty
+## parellel threading for dynesty
 from multiprocessing import Pool
 pool = Pool(processes=8)
 procs = 8
 
-
-import sys
-import emcee
-from emcee.utils import MPIPool
-pool = MPIPool()
-procs = 32
+#MPI for dynesty
+# import sys
+# import emcee
+# from emcee.utils import MPIPool
+# pool = MPIPool()
+# procs = 32
 
 # if not pool.is_master():
 #     pool.wait()
@@ -64,7 +64,7 @@ if (FitMeth == "FminFit"):
 else:
 	plt_ens = True
 nsol=10
-plt_ICs = False
+plt_ICs = True
 
 
 #Physical Constants
@@ -93,9 +93,9 @@ print "Importing Data"
 #MAKE USER INPUT LATER
 #Kep KLS AGN
 filename="1918+49_lc_corrected.dat"
-err_fac = 0.005
-err_fac_zm = 0.005
-day_intervl = 10.0
+err_fac = 0.0
+err_fac_zm = 0.0
+day_intervl = 20.0
 day_intervl_zm = 1.0
 dats = Get_FitData(filename, err_fac, err_fac_zm, day_intervl, day_intervl_zm)
 
@@ -153,8 +153,8 @@ print "Data Imported"
 #pDop = [ecc,cosw,T0,KK,Tbin,fs]
 Mtst = 8.
 qtst = 0.1
-ecctst = 0.5
-coswtst = 0.0
+ecctst = 0.4
+coswtst = 1.0
 
 ecctst1 = 0.2
 ecctst2 = 0.5
@@ -162,29 +162,13 @@ ecctst2 = 0.5
 coswtst1 = 0.5
 coswtst2 = 0.0
 
-Tbintst = 450.
+Tbintst = 400.
 CosItst = 0.99
 KKtst = 0.1
 fstst = 0.5
 alptst = 1.5
 
-# ph0tst = -2.*np.pi*247/Tbintst
-
-# #pDop0 = [Mtst, qtst, ecctst, coswtst, Tbintst*0.0, KKtst, Tbintst, fstst, alptst]
-# pDop0 = [Mtst, qtst, ecctst, coswtst, Tbintst*0.0, KKtst, Tbintst, fstst]
-
-# # pDopLens0 = [Mtst, qtst, ecctst2, coswtst, Tbintst*0.0, CosItst, Tbintst, fstst, alptst]
-# # pDopLens1 = [Mtst, qtst, ecctst2, coswtst1, Tbintst*0.0, CosItst, Tbintst, fstst, alptst]
-# # pDopLens2 = [Mtst, qtst, ecctst2, coswtst2, Tbintst*0.0, CosItst, Tbintst, fstst, alptst]
-# pDopLens0 = [Mtst, qtst, ecctst2, coswtst, Tbintst*0.0, CosItst, Tbintst, fstst]
-# pDopLens1 = [Mtst, qtst, ecctst2, coswtst1, Tbintst*0.0, CosItst, Tbintst, fstst]
-# pDopLens2 = [Mtst, qtst, ecctst2, coswtst2, Tbintst*0.0, CosItst, Tbintst, fstst]
-
-# plens = [Mtst, Tbintst, qtst, CosItst, 0.0]
-
-# plens_ecc = [Mtst, Tbintst, qtst, CosItst, 0.0, ecctst, coswtst]
-# plens_ecc1 = [Mtst, Tbintst, qtst, CosItst, 0.0, ecctst, coswtst1]
-# plens_ecc2 = [Mtst, Tbintst, qtst, CosItst, 0.0, ecctst, coswtst2]
+ph0tst = 2.*np.pi*250/Tbintst
 
 
 tt = np.linspace(195.0, 210.0, 200)
@@ -206,42 +190,22 @@ tl = np.linspace(0.0, 900.0, 500)
 
 #p0E = [Mtst, Tbintst, qtst, CosItst, ph0tst, ecctst, coswtst, fstst]
 #from fmin on flare zoom
-p0E = [  7.96595983e+00,   4.48578302e+02,   8.52467081e-02, 9.89532469e-01,  3.44860788e+00, 6.03603989e-01, 1.0, 4.51238859e-01]
+#p0E = [  7.96595983e+00,   4.48578302e+02,   8.52467081e-02, 9.89532469e-01,  3.44860788e+00, 6.03603989e-01, 1.0, 4.51238859e-01]
 
 #p0E = [  8.96595983e+00,   1.0*4.48578302e+02,   7.02467081e-02, 9.89532469e-01,  1.0*3.44860788e+00, 4.03603989e-01, 1.63034655e-04, 4.51238859e-01]
 	#pDopLens0 = [Mtst, qtst, ecctst2, coswtst, Tbintst*0.0, CosItst, Tbintst, fstst, alptst]
 
 #From fmin DopLens fit
-#p0E = [8.2157630055802926, 510.75101131540401, 0.10324063269547901, 0.92412490822557425, -183.45673927598466, 0.52290916488381289, 0.00024182304074598073, 0.50658607995971572]
+p0E = [6.4505785138402487, 480.74691682369394, 0.10150791287067867, 0.99911402905436431, 3.5557109273439433, 0.34886933253276831, 0.99934181448225878, 0.55688898643435225]
 Dop0 = [p0E[0], p0E[2], p0E[5], p0E[6], p0E[4]*p0E[1]/2./np.pi, p0E[3], p0E[1], p0E[7]]
 	
-# Dop0 = [ 7.96465683e+00,   1.01889801e-01,   5.67425637e-01,
-#          2.80781763e-05,  -2.41601578e+02,   9.91013118e-01,
-#          4.43887801e+02,   4.37456235e-01,   1.53406427e+00]
-# Dop0 = [ 7.96787162e+00,   1.06195167e-01,   5.68348476e-01,
-#          6.49502429e-06,  -2.50977976e+02,   9.91452061e-01,
-#          4.53272107e+02,   4.15220989e-01,   1.47790115e+00]
-
-# Dop0 = [ 7.96787162e+00,   1.06195167e-01,   5.68348476e-01,
-#          6.49502429e-06,  -2.50977976e+02,   9.91452061e-01,
-#          4.53272107e+02,   4.15220989e-01]
-
-
-
-#Dop0 = [  7.18897991e+00,   1.09392828e-02,   4.65421245e-01,   8.56775158e-04,
-#  -2.50758869e+02,   9.95823130e-01,   4.51819713e+02,   7.82196857e-01]
-# Dop0 = [  7.61909069e+00,   7.89392229e-02,   2.65810804e-06,
-#          3.18964703e-03,  -1.34246604e+02,   8.54361633e-01,
-#          5.55853427e+02,   6.37401590e-01]
-# #pDopLens0 = [Mtst, qtst, ecctst2, coswtst, Tbintst*0.0, CosItst, Tbintst, fstst, alptst]
-# p0E = [Dop0[0], Dop0[6], Dop0[1], Dop0[5], Dop0[4]/Dop0[6]*2.*np.pi, Dop0[2], Dop0[3], Dop0[7]]
 
 
 
 if (plt_ICs):
 	print "PLOTTING ICs"
 
-	plt.figure(figsize=[10,7])
+	plt.figure(figsize=[10,6])
 
 	plt.subplot(311)
 	#plt.plot(tl, DopLum(pDop0, tl*day2sec))
@@ -329,7 +293,7 @@ if (FitIt):
 			#p =   M,    Prest,   q,    CosI,    ph0, ecc,    cosw, fs = p
 			p0E = [Mtst, Tbintst, qtst, CosItst, ph0tst, ecctst, coswtst, fstst]
 			print "Fitting Lens Flare Zoom in"
-			popt  = sc.optimize.fmin(Mag_ecc_Fmin_Err2,  p0E, args=(t_avg_zm, mag_avg_zm, mag_err_avg_zm), full_output=1, disp=False, ftol=0.001)[0]
+			popt  = sc.optimize.fmin(Mag_ecc_Fmin_Err2,  p0E, args=(t_avg_zm, mag_avg_zm, mag_err_avg_zm), full_output=1, disp=False, ftol=0.1)[0]
 			print "DONE Fitting Lens Flare Zoom in"
 			DopOpt = [popt[0], popt[2], popt[5], popt[6], popt[4]*popt[1]/2./np.pi, popt[3], popt[1], popt[7]]
 			#pDopLens0 = [Mtst, qtst, ecctst2, coswtst, Tbintst*0.0, CosItst, Tbintst, fstst, alptst]
@@ -342,7 +306,7 @@ if (FitIt):
 			Dop0 = [p0E[0], p0E[2], p0E[5], p0E[6], p0E[4]*p0E[1]/2./np.pi, p0E[3], p0E[1], p0E[7]]
 				
 			print "Fitting DOPLENS Avgs"
-			DopOpt  = sc.optimize.fmin(DopLens_Fmin_Err2,  Dop0, args=(t_avg, mag_avg/bkgmean, mag_err_flare_avg/bkgmean), full_output=1, disp=False, ftol=0.001)[0]
+			DopOpt  = sc.optimize.fmin(DopLens_Fmin_Err2,  Dop0, args=(t_avg, mag_avg/bkgmean, mag_err_flare_avg/bkgmean), full_output=1, disp=False, ftol=0.1)[0]
 			print "DONE Fitting DOPLENS Avgs"
 
 			#p0E = [Mtst, Tbintst, qtst, CosItst, ph0tst, ecctst, coswtst, fstst]

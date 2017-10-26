@@ -76,6 +76,7 @@ def Get_FitData(filename, err_fac, err_fac_zm, day_intervl, day_intervl_zm):
 
 	t_avg = []
 	mag_avg = []
+	mag_sig = []
 
 
 	#VarMn_test_W1 = []
@@ -86,7 +87,7 @@ def Get_FitData(filename, err_fac, err_fac_zm, day_intervl, day_intervl_zm):
 		t_avg.append(np.mean(t_srt[iseg[i]+1:iseg[i+1]+1]))
 
 		mag_avg.append(np.mean(mag_srt[iseg[i]+1:iseg[i+1]+1]))
-		
+		mag_sig.append(np.std(mag_srt[iseg[i]+1:iseg[i+1]+1]))
 
 		
 		#Nseg = len(V_sigsrt[iseg[i]+1:iseg[i+1]]) + 1
@@ -103,9 +104,9 @@ def Get_FitData(filename, err_fac, err_fac_zm, day_intervl, day_intervl_zm):
 	t_avg = np.array(t_avg)
 	mag_avg = np.array(mag_avg)
 
-	mag_err_avg = err_fac*mag_avg
+	mag_err_avg = np.array(mag_sig)#err_fac*mag_avg
 
-	mag_err_flare_avg = mag_err_avg
+	mag_err_flare_avg = np.array(mag_sig)#mag_err_avg
 	# for i in range(len(mag_err_avg)):
 	# 	if (t_avg[i] > 198 and t_avg[i] < 208):
 	# 		mag_err_flare_avg[i] = mag_err_avg[i]/5.0
@@ -183,17 +184,19 @@ def Get_FitData(filename, err_fac, err_fac_zm, day_intervl, day_intervl_zm):
 
 	t_avg_zm = []
 	mag_avg_zm = []
+	mag_sig_zm = []
 
 
 	for i in range(0 , len(iseg)-1):
 		t_avg_zm.append(np.mean(t_srt[iseg[i]+1:iseg[i+1]+1]))
 		mag_avg_zm.append(np.mean(mag_srt[iseg[i]+1:iseg[i+1]+1]))
+		mag_sig_zm.append(np.std(mag_srt[iseg[i]+1:iseg[i+1]+1]))
 		
 
 	t_avg_zm = np.array(t_avg_zm)
 	mag_avg_zm = np.array(mag_avg_zm)
 
-	mag_err_avg_zm = err_fac_zm*mag_avg_zm
+	mag_err_avg_zm = np.array(mag_sig_zm)#err_fac_zm*mag_avg_zm
 
 	print "DONE BINNING ZOOM DATA"
 	######################################################################
